@@ -38,13 +38,17 @@ jobs:
           cd twrp
           source build/envsetup.sh
           lunch twrp_fire-eng || lunch twrp_fire-userdebug
-          mka recoveryimage -j$(nproc --all) || mka bootimage -j$(nproc --all)
+          make bootimage vendorbootimage recoveryimage -j$(nproc --all)
           echo "=== Checking Output Files ==="
-          find out/target/product/fire/ -type f -name "*.img"
+          ls -la out/target/product/fire/
 
       - name: Upload TWRP Recovery Image
         uses: actions/upload-artifact@v4
         with:
           name: TWRP_Recovery_Fire
-          path: twrp/out/target/product/fire/*.img
+          path: |
+            twrp/out/target/product/fire/boot.img
+            twrp/out/target/product/fire/vendor_boot.img
+            twrp/out/target/product/fire/recovery.img
+            twrp/out/target/product/fire/*.img
           if-no-files-found: warn
