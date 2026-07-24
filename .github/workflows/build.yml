@@ -27,7 +27,7 @@ jobs:
           mkdir twrp
           cd twrp
           repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1 --depth=1
-          repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune -j4
+          repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
 
       - name: Clone Device Tree
         run: |
@@ -38,10 +38,11 @@ jobs:
           cd twrp
           source build/envsetup.sh
           lunch twrp_fire-eng || lunch twrp_fire-userdebug
-          make recoveryimage -j$(nproc --all)
+          make bootimage recoveryimage -j$(nproc --all) || make recoveryimage -j$(nproc --all)
 
       - name: Upload TWRP Recovery Image
         uses: actions/upload-artifact@v4
         with:
           name: TWRP_Recovery_Fire
-          path: twrp/out/target/product/fire/recovery.img
+          path: |
+            twrp/out/target/product/fire/*.img
