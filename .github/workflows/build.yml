@@ -27,7 +27,7 @@ jobs:
           mkdir twrp
           cd twrp
           repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1 --depth=1
-          repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+          repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune -j4
 
       - name: Clone Device Tree
         run: |
