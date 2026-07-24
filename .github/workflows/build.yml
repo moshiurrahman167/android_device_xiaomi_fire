@@ -38,7 +38,8 @@ jobs:
           cd twrp
           source build/envsetup.sh
           lunch twrp_fire-eng || lunch twrp_fire-userdebug
-          make bootimage recoveryimage -j$(nproc --all) || make recoveryimage -j$(nproc --all)
+          make recoveryimage -j$(nproc --all) || make bootimage -j$(nproc --all)
+          ls -la out/target/product/fire/
 
       - name: Upload TWRP Recovery Image
         uses: actions/upload-artifact@v4
@@ -46,3 +47,6 @@ jobs:
           name: TWRP_Recovery_Fire
           path: |
             twrp/out/target/product/fire/*.img
+            twrp/out/target/product/fire/boot.img
+            twrp/out/target/product/fire/recovery.img
+          if-no-files-found: warn
