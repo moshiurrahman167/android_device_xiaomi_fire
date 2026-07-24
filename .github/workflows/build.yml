@@ -39,6 +39,7 @@ jobs:
           source build/envsetup.sh
           lunch twrp_fire-eng || lunch twrp_fire-userdebug
           make recoveryimage -j$(nproc --all) || make bootimage -j$(nproc --all)
+          echo "=== Checking Output Directory ==="
           ls -la out/target/product/fire/
 
       - name: Upload TWRP Recovery Image
@@ -47,6 +48,6 @@ jobs:
           name: TWRP_Recovery_Fire
           path: |
             twrp/out/target/product/fire/*.img
-            twrp/out/target/product/fire/boot.img
-            twrp/out/target/product/fire/recovery.img
+            twrp/out/target/product/fire/boot*.img
+            twrp/out/target/product/fire/recovery*.img
           if-no-files-found: warn
