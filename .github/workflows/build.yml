@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Environment
         run: |
@@ -41,7 +41,7 @@ jobs:
           make recoveryimage -j$(nproc --all)
 
       - name: Upload TWRP Recovery Image
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: TWRP_Recovery_Fire
           path: twrp/out/target/product/fire/recovery.img
