@@ -37,11 +37,23 @@ jobs:
         run: |
           cd twrp/device/xiaomi/fire
           mkdir -p prebuilt
-          if [ -f "boot.img" ]; path_img="boot.img"; elif [ -f "prebuilt/boot.img" ]; path_img="prebuilt/boot.img"; fi
-          echo "Extracting kernel automatically..."
+          
+          # Check for image file
+          path_img=""
+          if [ -f "boot.img" ]; then
+            path_img="boot.img"
+          elif [ -f "prebuilt/boot.img" ]; then
+            path_img="prebuilt/boot.img"
+          elif [ -f "vendor_boot.img" ]; then
+            path_img="vendor_boot.img"
+          elif [ -f "prebuilt/vendor_boot.img" ]; then
+            path_img="prebuilt/vendor_boot.img"
+          fi
+          
+          echo "Extracting kernel automatically from $path_img ..."
           wget -q https://raw.githubusercontent.com/carlitoxxPro/magiskboot-binaries/main/x86_64/magiskboot -O magiskboot
           chmod +x magiskboot
-          ./magiskboot unpack -h $path_img || ./magiskboot unpack -h prebuilt/vendor_boot.img
+          ./magiskboot unpack -h "$path_img"
           mv kernel prebuilt/kernel
           echo "Kernel auto-extracted successfully!"
 
