@@ -43,7 +43,7 @@ jobs:
       run: |
         cd twrp
         source build/envsetup.sh
-        lunch omni_fire-eng || lunch omni_fire-userdebug || lunch twrp_fire-eng
+        lunch twrp_fire-eng || lunch twrp_fire-userdebug || lunch omni_fire-eng
         mka vendor_bootimage -j$(nproc --all) || mka recoveryimage -j$(nproc --all)
 
     - name: Upload Output Image
